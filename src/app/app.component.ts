@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ApiService } from './service/api.service';
 
+import { Router } from '@angular/router';
 
 export class ServiceLink {
   linkTitle: string;
@@ -17,10 +18,9 @@ export class AppComponent {
   serviceLinks: ServiceLink[] = [];
   serviceLinksValidated: ServiceLink[] = [];
 
-  brokenLinkChecker: any;
-  blc: any
 
   constructor(
+    private router: Router,
     private apiService: ApiService
   ) {
   }
@@ -29,7 +29,13 @@ export class AppComponent {
   public ngOnInit() {
     this.getLinkFromService();
   }
-
+  redirect(isBroken, url) {
+    if (isBroken) {
+      this.router.navigateByUrl('/NotFound');
+      return;
+    }
+    location.href = url
+  }
 
   public getLinkFromService() {
     this.apiService.setPath('http://localhost:4200/assets/mock-data.json');
