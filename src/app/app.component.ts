@@ -39,19 +39,24 @@ export class AppComponent {
 
         this.serviceLinks = response;
         this.serviceLinksValidated = response;
+        this.checkIfLinksBroken();
       }
       );
   }
-  public checkIfLinkBroken(index, urlLink) {
-    const path = `http://localhost:3000/?url=${urlLink}`
+  public checkIfLinksBroken() {
 
-    this.apiService.setPath('http://localhost:4200/assets/mock-data.json');
-    this.apiService.getAll()
-      .subscribe(
-      (response) => {
-        this.serviceLinksValidated[index].isBroken = response['isBroken']
-      }
-      )
+    this.serviceLinksValidated.map((link, index) => {
+
+      const path = `http://localhost:3000/?url=${link.urlLink}`
+
+      this.apiService.setPath('http://localhost:4200/assets/mock-data.json');
+      this.apiService.getAll()
+        .subscribe(
+        (response) => {
+          this.serviceLinksValidated[index].isBroken = response['isBroken']
+        }
+        )
+    })
   }
 
 

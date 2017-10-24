@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "concurrent \"ng serve\" \" npm run start-broken-link-service\"  ",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
