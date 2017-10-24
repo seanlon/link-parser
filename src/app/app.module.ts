@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
@@ -14,11 +15,11 @@ import { AppRoutingModule } from './route/app.routes';
     AppComponent, FoundComponent, NotFoundComponent
   ],
   imports: [
-    BrowserModule, AppRoutingModule,
+    BrowserModule, AppRoutingModule, RouterModule,
     FormsModule,
     HttpModule
   ],
   providers: [ApiService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent], exports: [RouterModule]
 })
 export class AppModule { }

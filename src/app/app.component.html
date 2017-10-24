@@ -1,12 +1,31 @@
-<h5> [ No Validation ]Raw Links Retrieved From Service</h5>
-<div *ngFor="let link of serviceLinks ">
-  <a [href]="link.linkUrl">{{link.linkTitle}}</a>
+<h1>{{title}}</h1>
+<div [class.hidden]="!isFoundRoute" class="valid-route">
+  <h5>Context</h5>
+  <p> This app will fetch a list of links from MicroServiceAbc</p>
+  <p> Then SPAServiceXyz will parse these links for broken links checker[cors able] </p>
+  <p> Broken Links will be highlighted in red color and routing will be directed to 404 </p>
+  <p><br></p>
+
+
+
+  <h5> Validated Service links from MicroServiceAbc</h5>
+  <div class="link-list" *ngFor="let link of serviceLinks ">
+    <a class="link" [class.broken]="link.isBroken " (click)="redirect(link.isBroken, link.linkUrl)">
+      <span class="broken" *ngIf="link.isBroken">[BROKEN]</span> {{link.linkTitle}}</a>
+  </div>
+
+  <h6>
+    <BR>
+  </h6>
+  <h6>
+    <BR>
+  </h6>
+  <h5> Raw Service links fetch from MicroServiceAbc</h5>
+  <div *ngFor="let link of serviceLinks ">
+    <a [href]="link.linkUrl">{{link.linkTitle}}</a>
+  </div>
 </div>
 
-<h5> [ Validation ]Disable Invalid links From Service and route to forbidden</h5>
-<div *ngFor="let link of serviceLinks ">
-  <a [style.color]="link.isBroken: 'red':'green''" (click) "redirect(link.isBroken, link.linkUrl)">{{link.linkTitle}}</a>
+<div [class.hidden]="isFoundRoute" class="invalid-route">
+  <router-outlet></router-outlet>
 </div>
-
-
-<router-outlet></router-outlet>

@@ -1,0 +1,15 @@
+a{
+    color:green;
+    font-weight: bold;
+    text-decoration: underline;
+    cursor:pointer !important;
+    
+}
+a.broken{
+    color:red;
+    font-weight: bolder;
+}
+
+.hidden{
+    display:none ;    
+}

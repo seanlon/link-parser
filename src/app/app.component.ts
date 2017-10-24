@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ApiService } from './service/api.service';
-
+import { PlatformLocation } from '@angular/common'
 import { Router } from '@angular/router';
 
 export class ServiceLink {
@@ -14,48 +14,66 @@ export class ServiceLink {
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  linksFromService;
+  /** General Title */
+  title: string = 'App Link Checker';
+
+  /** Raw Service links fetch from MicroServiceAbc */
   serviceLinks: ServiceLink[] = [];
+
+  /** Validated Service links fetch from MicroServiceAbc */
   serviceLinksValidated: ServiceLink[] = [];
 
+  /** Identify if user has select a broken link routes */
+  isFoundRoute: boolean = true;
 
-  constructor(
+  constructor(location: PlatformLocation,
     private router: Router,
     private apiService: ApiService
   ) {
+
+    location.onPopState(() => {
+      this.resetState();
+      console.log('user pressed back!');
+    });
+
   }
 
+  public resetState() {
+    this.isFoundRoute = true;
+  }
 
   public ngOnInit() {
-    this.getLinkFromService();
+
+    this.fetchLinksFromMicroServiceAbc();
   }
   redirect(isBroken, url) {
     if (isBroken) {
+      this.isFoundRoute = false;
       this.router.navigateByUrl('/NotFound');
       return;
     }
-    location.href = url
+
+    this.isFoundRoute = true;
+    location.href = url;
   }
 
-  public getLinkFromService() {
-    this.apiService.setPath('http://localhost:4200/assets/mock-data.json');
+  public fetchLinksFromMicroServiceAbc() {
+    this.apiService.setPath('./assets/mock-data.json');
     this.apiService.getAll()
       .subscribe(
       (response) => {
 
         this.serviceLinks = response;
         this.serviceLinksValidated = response;
-        this.checkIfLinksBroken();
+        this.parseBrokenLinks();
       }
       );
   }
-  public checkIfLinksBroken() {
+  public parseBrokenLinks() {
 
-    this.serviceLinksValidated.map((link, index) => {
-
-      const path = `http://localhost:3000/?url=${link.linkUrl}`
-
-      this.apiService.setPath('http://localhost:4200/assets/mock-data.json');
+    this.serviceLinksValidated.map((linkItem, index) => {
+      const path = `http://localhost:3000/?url=${linkItem.linkUrl}`
+      this.apiService.setPath(path);
       this.apiService.getAll()
         .subscribe(
         (response) => {
