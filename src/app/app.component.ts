@@ -47,7 +47,7 @@ export class AppComponent {
 
     this.serviceLinksValidated.map((link, index) => {
 
-      const path = `http://localhost:3000/?url=${link.urlLink}`
+      const path = `http://localhost:3000/?url=${link.linkUrl}`
 
       this.apiService.setPath('http://localhost:4200/assets/mock-data.json');
       this.apiService.getAll()
