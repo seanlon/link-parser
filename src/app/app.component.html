@@ -1,0 +1,12 @@
+<h5> [ No Validation ]Raw Links Retrieved From Service</h5>
+<div *ngFor="let link of serviceLinks ">
+  <a [href]="link.linkUrl">{{link.linkTitle}}</a>
+</div>
+
+<h5> [ Validation ]Disable Invalid links From Service and route to forbidden</h5>
+<div *ngFor="let link of serviceLinks ">
+  <a [style]="checkIfLinkBroken($index, link.linkUrl)" [style.color]="link.isBroken: 'red':'green''" [href]="link.linkUrl">{{link.linkTitle}}</a>
+</div>
+
+
+<router-outlet></router-outlet>
